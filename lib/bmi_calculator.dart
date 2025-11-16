@@ -99,10 +99,10 @@ class _bmiState extends State<bmi> {
   }
   String categoryResult(double bmi)
   {
-    if(bmi<18.5) return "UnderWeight";
-    if(bmi<25) return "Normal";
-    if(bmi<30) return "OverWeight";
-    return "Obese";
+    if(bmi<18.5) return "UnderWeight😬";
+    if(bmi<25) return "Normal😊";
+    if(bmi<30) return "OverWeight😬";
+    return "Obese☠️";
 
   }
   Color categoryColor(double bmi)
@@ -113,6 +113,13 @@ class _bmiState extends State<bmi> {
     return Colors.red;
 
   }
+  String getHealthMessage(double bmi) {
+    if (bmi < 18.5) return "You are underweight. Try to maintain a healthy diet.";
+    if (bmi < 25) return "Great! You have a healthy body weight.";
+    if (bmi < 30) return "You are slightly overweight. Consider regular exercise.";
+    return "High BMI. Try to consult a doctor or follow a weight-loss plan.";
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -215,11 +222,80 @@ class _bmiState extends State<bmi> {
                 onPressed: (){calculate();}, child: Text(' Calculate BMI')
             ),
             SizedBox(height: 15,),
-            Text('BMI Result: ${bmiResult}',style: TextStyle(fontWeight: FontWeight.bold),),
-            SizedBox(height: 7,),
-            if(category!=null)...[
-              Text('BMI Category: ${category},',style: TextStyle(fontWeight: FontWeight.bold,color: categoryColor(double.parse(bmiResult))),)
-    ],
+            SizedBox(height: 20),
+
+            SizedBox(height: 20),
+
+            if (bmiResult.isNotEmpty) ...[
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 14, horizontal: 18),
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade300, width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "BMI Result",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+
+                    SizedBox(height: 6),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          bmiResult,
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                          decoration: BoxDecoration(
+                            color: categoryColor(double.parse(bmiResult)).withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            category!,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: categoryColor(double.parse(bmiResult)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(height: 10),
+
+                    Text(
+                      getHealthMessage(double.parse(bmiResult)),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey.shade600,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+
+
           ],
         ),
       ),
